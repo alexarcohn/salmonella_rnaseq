@@ -1,0 +1,26 @@
+
+Roary
+
+docker1 pull sangerpathogens/roary
+docker1 run --rm -it -v /workdir/arc326/data:/data sangerpathogens/roary roary -f ./data/ ./data/*.gff
+
+SISTR
+
+export PYTHONPATH=/programs/sistr_cmd/lib/python2.7/site-packages
+/workdir/sistr_cmd/bin/sistr --qc -vv -f csv -o *.csv --no-cgmlst *_contigs_long.fasta
+
+# Commands for kSNP3
+# Export env. variable to $PATH
+export PATH=/programs/kSNP3:$PATH
+
+# Create input file with location of fasta files. "A" stands for Automatic mode.
+MakeKSNP3infile directory_with_files output_file_name A
+
+# Create Fasta file for Kchooser
+MakeFasta input_file_name output_file_name.fasta
+
+# Run Kchooser
+Kchooser input_file_name.fasta
+
+#Run kSNP3
+kSNP3 -in file_with_paths_to_genomes -outdir output_directory -k 15 -core -min_frac 1.0 -CPU 35
